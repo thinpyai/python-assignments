@@ -1,61 +1,64 @@
-waterPri = 100
-waterNoOfBottle = 10;
+from Goods import Goods
 
-orangeJuicePri = 120
-orangeNoOfBottle = 10;
-
-limeJuicePri = 110
-limeNoOfBottle = 10;
+water_bottle = Goods(100, 10)
+orange_juice_bottle = Goods(120, 10)
+lime_juice_bottle = Goods(110, 10)
 
 
 def show_goods():
     print('Please select item...')
-    print('1. Water : ' + str(waterPri) + ' ks')
-    print('2. Orange Juice : ' + str(orangeJuicePri) + ' ks')
-    print('3. Lime Juice : ' + str(limeJuicePri) + ' ks')
+    print('1. Water : ' + str(water_bottle.get_price()) + ' ks')
+    print('2. Orange Juice : ' + str(orange_juice_bottle.get_price()) + ' ks')
+    print('3. Lime Juice : ' + str(lime_juice_bottle.get_price()) + ' ks')
     print('q. Quit')
 
 
 def sell_goods():
     cart = []
     end = False
-    global waterNoOfBottle
-    global orangeNoOfBottle
-    global limeNoOfBottle
     while not end:
 
         show_goods()
         input_type = input('What would you like to buy? Please choose 1 0r 2 or 3 or q')
 
         if input_type == '1':
-            input_amount = int(input('How many number would you like to buy?'))
-            check_result = check_stock(input_type, input_amount)
-            if check_result:
-                cart.append(waterPri*input_amount)
-                waterNoOfBottle -= input_amount
-            else:
-                print('Out of stock for water bottle.')
-                break
+            try:
+                input_amount = int(input('How many number would you like to buy?'))
+                check_result = check_stock(input_type, input_amount)
+                if check_result:
+                    cart.append(water_bottle.multiply_temp_price(input_amount))
+                    water_bottle.reduce_amount(input_amount)
+                else:
+                    print('Out of stock for water bottle.')
+                    break
+            except ValueError:
+                print('Invalid data inputting. Please type a number.')
 
         elif input_type == '2':
-            input_amount = int(input('How many number would you like to buy?'))
-            check_result = check_stock(input_type, input_amount)
-            if check_result:
-                cart.append(orangeJuicePri * input_amount)
-                orangeNoOfBottle -= input_amount
-            else:
-                print('Out of stock for orange juice bottle.')
-                break
+            try:
+                input_amount = int(input('How many number would you like to buy?'))
+                check_result = check_stock(input_type, input_amount)
+                if check_result:
+                    cart.append(orange_juice_bottle.multiply_temp_price(input_amount))
+                    orange_juice_bottle.reduce_amount(input_amount)
+                else:
+                    print('Out of stock for orange juice bottle.')
+                    break
+            except ValueError:
+                print('Invalid data inputting. Please type a number.')
 
         elif input_type == '3':
-            input_amount = int(input('How many number would you like to buy?'))
-            check_result = check_stock(input_type, input_amount)
-            if check_result:
-                cart.append(limeJuicePri * input_amount)
-                limeNoOfBottle -= input_amount
-            else:
-                print('Out of stock for lime juice bottle.')
-                break
+            try:
+                input_amount = int(input('How many number would you like to buy?'))
+                check_result = check_stock(input_type, input_amount)
+                if check_result:
+                    cart.append(lime_juice_bottle.multiply_temp_price(input_amount))
+                    lime_juice_bottle.reduce_amount(input_amount)
+                else:
+                    print('Out of stock for lime juice bottle.')
+                    break
+            except ValueError:
+                print('Invalid data inputting. Please type a number.')
 
         else:
             end = True
@@ -74,22 +77,13 @@ def sell_goods():
 
 def check_stock(input_type, amount):
     if input_type == '1':
-        if (waterNoOfBottle - amount) > -1:
-            return True
-        else:
-            return False
+        return water_bottle.compare_amount(amount)
 
     elif input_type == '2':
-        if (orangeNoOfBottle - amount) > -1:
-            return True
-        else:
-            return False
+        return orange_juice_bottle.compare_amount(amount)
 
     elif input_type == '3':
-        if (limeNoOfBottle - amount) > -1:
-            return True
-        else:
-            return False
+        return lime_juice_bottle.compare_amount(amount)
 
 
 def calculate_cost(item_list):
@@ -105,4 +99,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
