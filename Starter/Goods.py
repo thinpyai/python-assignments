@@ -1,10 +1,12 @@
 class Goods:
     price: int
     amount: int
+    name: ""
 
-    def __init__(self, price=0, amount=0):
+    def __init__(self, price=0, amount=0, name=""):
         self.price = price
         self.amount = amount
+        self.name = name
         # self.temp_price = self.price
         # self.temp_amount = self.amount
 
