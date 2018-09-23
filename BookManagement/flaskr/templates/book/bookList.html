@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Posts{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('book.addBook') }}">New</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+{{i=0}}
+<th>
+    <td>No</td>
+    <td>Book Name</td>
+    <td>Writer</td>
+    <td>Type</td>
+</th>
+
+{% for book in books %}
+<tr>
+    <td>{{i++}}</td>
+    <td>{{ book['name'] }}</td>
+    <td>{{ book['writer'] }}</td>
+    <td>{{ book['type'] }}</td>
+    <td>
+        <a class="action" href="{{ url_for('book.detailBook') }}">Detail</a>
+        <a class="action" href="{{ url_for('book.borrowBook') }}">Borrow</a>
+        <a class="action" href="{{ url_for('book.editBook') }}">Edit</a>
+        <a class="action" href="{{ url_for('book.deleteBook') }}">\Delete</a>
+    </td>
+
+</tr>
+
+{% endfor %}
+
+{% endblock %}
