@@ -1,4 +1,7 @@
-
+TicTacToe/.idea/
+TicTacToe/venv/
+BookManagement/venv/
+BookManagement/instance/
 Starter/.idea/misc.xml
 Starter/.idea/modules.xml
 Starter/.idea/Starter.iml
