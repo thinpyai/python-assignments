@@ -6,6 +6,7 @@ class Player:
     pattern : ""
     state : boolean
     turn : boolean
+    order : int
 
     def __init__(self, name="Player A",pattern="O"):
         self.name = name
@@ -33,3 +34,9 @@ class Player:
 
     def get_turn(self):
         return self.turn
+
+    def set_order(self, order):
+        self.order = order
+
+    def get_order(self):
+        return self.order
