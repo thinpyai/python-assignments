@@ -18,7 +18,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('', include('web_library.main_urls')),
-    path('login/', admin.site.urls),
+    path('', include('django.contrib.auth.urls')),
     path('book/', include('book.urls')),
     path('admin/', admin.site.urls),
 ]
