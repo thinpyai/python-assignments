@@ -1,4 +1,35 @@
 {% if book_list %}
+<table>
+    <th>
+        <td>ID</td>
+        <td>Title</td>
+        <td>Author</td>
+        <td>Publisher</td>
+        <td>Operation</td>
+    </th>
+    {% for book in book_list %}
+
+        <tr>
+            <td>{{ book.id }}</td>
+            <td><a href="/book/{{ book.id }}/">{{ book.title }}</a></td>
+            <td></td>
+            <td></td>
+            <td>
+                <input type="button" onclick="location.href='/book/{{ book.id }}/edit/';" value="Edit" />
+                <input type="button" value="Delete" />
+                <input type="button" onclick="location.href='/book/{{ book.id }}/borrow/';" value="Borrow" />
+            </td>
+        </tr>
+        <!-- <li>
+             
+            
+        </li> -->
+    {% endfor %}
+
+
+
+</table>
+<!-- 
     <ul>
     {% for book in book_list %}
         <li>
@@ -8,7 +39,7 @@
         </li>
     {% endfor %}
     </ul>
-{% else %}
+ -->{% else %}
     <p>No book is available.</p>
 {% endif %}
 <a href="/book/add/"> Add </a>
