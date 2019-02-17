@@ -1,13 +1,22 @@
 from django.db import models
 
+class BookLoan(models.Model):
+    book_id = models.IntegerField()
+    borrower = models.CharField(max_length=20)
+    rent_date = models.DateField("Rent Date")
+    due_date = models.DateField("Due Date")
+    return_date = models.DateField("Return Date")
+
 class Book(models.Model):
     title = models.CharField(max_length=64)
     author = models.CharField(max_length=20)
     publisher = models.CharField(max_length=20)
-    rental_status = models.IntegerField("Rental Status")
+    # 1 id available, 0 is on-loan
+    rental_status = models.IntegerField("Rental Status",default=1)
     summary = models.CharField(max_length=200)
     release_date = models.DateField("Release Date")
     category = models.CharField(max_length=20)
+    latest_book_loan = models.ForeignKey(BookLoan, on_delete=models.CASCADE, null=True)
     
     # For datatable usage
     # class Meta:
@@ -17,16 +26,3 @@ class Book(models.Model):
 
     # def __str__(self):
     #     return self.title
-
-# class BookLoan(models.Model):
-#     book_id = 
-#     borrower = models.CharField(max_length=20)
-    
-
-
-#     You can use the table structure eg. (You can change the following:)
-# 1). BookLoan table eg.
-# id, book_id, borrower, rent_date, due_date, return_date
-# 2). store the latest_book_loan and status of book in Book table
-#  latest_book_loan in Book is the foreign key of the latest book loan of book
-# eg.     latest_book_loan = models.ForeignKey(BookLoan, on_delete=models.CASCADE, null=True)
