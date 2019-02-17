@@ -1,4 +1,42 @@
 {% include "../menu.html" %}
+
+<script>
+    function clicked(e, id) {
+        if (confirm('Are you sure to delete this book?')) {
+            $.ajax({
+                type: "POST", 
+                headers: { "X-CSRFToken": getCookie("csrftoken") },
+                data: { 'book_id': id },  
+                url: '/book/'+id+'/delete/',
+                success: function() {   
+                    location.reload();  
+                }
+            }
+                );
+    }
+
+            }
+
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            var csrftoken = getCookie('csrftoken');
+</script>
+
+
+
 <div class="content">
     <input type="button" onclick="location.href='/book/add/';" value="add Book" />
 
@@ -9,6 +47,9 @@
             <th>Title</th>
             <th>Author</th>
             <th>Publisher</th>
+            <th>Summary</th>
+            <th>Release Date</th>
+            <th>Category</th>
             <th>Operation</th>
         </tr>
         {% for book in book_list %}
@@ -16,11 +57,14 @@
         <tr>
             <td>{{ book.id }}</td>
             <td><a href="/book/{{ book.id }}/edit/">{{ book.title }}</a></td>
-            <td></td>
-            <td></td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.publisher }}</td>
+            <td>{{ book.summary }}</td>
+            <td>{{ book.release_date }}</td>
+            <td>{{ book.category }}</td>
             <td>
                 <input type="button" onclick="location.href='/book/{{ book.id }}/edit/';" value="Edit" />
-                <input type="button" value="Delete" />
+                <input type="button" id="delete" value="Delete" onclick="clicked(event, '{{ book.id }}' )" />
                 <input type="button" onclick="location.href='/book/{{ book.id }}/borrow/';" value="Borrow" />
             </td>
         </tr>
