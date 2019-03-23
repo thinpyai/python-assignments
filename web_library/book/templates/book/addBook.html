@@ -1,0 +1,40 @@
+{% include "../menu.html" %}
+
+<script>
+
+    // $('id/class name').datetimepicker({
+    //    minDate: new Date(),
+    //    locale: 'en',
+    //    format: 'MM/DD/YYYY'
+    //});
+
+    // $(function () {
+    //    $('.datetime-input').datetimepicker({
+    //        format:'YYYY-MM-DD HH:mm:ss'
+    //    });
+    // });
+
+    // $(function () {
+    //    $('#datepicker').datepicker();
+    // });
+
+     $( function() {
+        $( "#id_release_date" ).datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+
+</script>
+
+<div class="content">
+    <form method="POST">{% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Add</button>
+        <input type="button" onclick="location.href='/book/';" value="Cancel" />
+    </form>
+
+</div>

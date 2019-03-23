@@ -1,0 +1,17 @@
+{% include "../menu.html" %}
+
+    
+   <table>
+       <tr>
+           <td>Title</td>
+           <td>{{title}}</td>
+       </tr>
+       <tr>
+            <td>Status</td>
+            <td>{{status}}</td>
+        </tr>
+   </table>
+    <input type="button" onclick="location.href='/book/{{ book.id }}/edit/';" value="{{btn_text}}"/> 
+  
+
+</div>
