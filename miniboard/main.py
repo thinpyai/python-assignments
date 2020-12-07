@@ -23,40 +23,62 @@ def main():
     turn = 1
     while is_continue:
         print(f'Player\'s {turn}')
-        try:
-            current_x = int(input('Input current position of x'))
-        except Exception:
-            print('Invalid input')
-            return
-        try:
-            current_y = int(input('Input current position of y'))
-        except Exception:
-            print('Invalid input')
+
+        current_x, current_y, next_x , next_y = receive_input()
+        if -1 in (current_x, current_y, next_x, next_y):
             return
 
-        try:
-            next_x = int(input('Input next position of x'))
-        except Exception:
-            print('Invalid input')
-            return
-        try:
-            next_y = int(input('Input next position of y'))
-        except Exception:
-            print('Invalid input')
-            return
         if turn == 1:
-            board, player1_arr = move(current_x, current_y, next_x, next_y, player1_mark, board, player1_arr)
-            if is_win(player1_arr, player1_win_arr):
-                print(f'Player{turn} is win')
-                is_continue = False
+            while is_continue:
+                board, player1_arr, is_jump = move(current_x, current_y, next_x, next_y, player1_mark, board, player1_arr)
+                if is_win(player1_arr, player1_win_arr):
+                    print(f'Player{turn} is win')
+                    is_continue = False
+
+                if is_jump:
+                    next_input = input('Will you input again. Type Y to jump next')
+                    if(next_input != 'Y'):
+                        break;
+                    draw_board(player1_arr, player2_arr, player1_mark, player2_mark, GRIP_SIZE)
+                    current_x, current_y, next_x, next_y = receive_input()
             turn = 2
         elif turn == 2:
-            board, player2_arr = move(current_x, current_y, next_x, next_y, player2_mark, board, player2_arr)
-            if is_win(player2_arr, player2_win_arr):
-                print(f'Player{turn} is win')
-                is_continue = False
+            while is_continue:
+                board, player2_arr, is_jump = move(current_x, current_y, next_x, next_y, player2_mark, board, player2_arr)
+                if is_win(player2_arr, player2_win_arr):
+                    print(f'Player{turn} is win')
+                    is_continue = False
+                if is_jump:
+                    next_input = input('Will you input again. Type Y to jump next')
+                    if(next_input != 'Y'):
+                        break;
+                    draw_board(player1_arr, player2_arr, player1_mark, player2_mark, GRIP_SIZE)
+                    current_x, current_y, next_x, next_y = receive_input()
             turn = 1
         draw_board(player1_arr, player2_arr, player1_mark, player2_mark, GRIP_SIZE)
+
+def receive_input():
+    try:
+        current_x = int(input('Input current position of x'))
+    except Exception:
+        print('Invalid input')
+        current_x = -1
+    try:
+        current_y = int(input('Input current position of y'))
+    except Exception:
+        print('Invalid input')
+        current_y = -1
+    try:
+        next_x = int(input('Input next position of x'))
+    except Exception:
+        print('Invalid input')
+        next_x = -1
+    try:
+        next_y = int(input('Input next position of y'))
+    except Exception:
+        print('Invalid input')
+        next_y = -1
+    return current_x, current_y, next_x, next_y
 
 def select_player():
     """
@@ -105,7 +127,9 @@ def move(current_x, current_y, next_x, next_y, player_mark, board, player_arr):
     elif (current_y == next_y+1 and current_x == next_x+1) or (current_y == next_y-1 and current_x == next_x-1):
         move_OK = True
     #jump
+    is_jump = False
     if not move_OK:
+
         if current_x == next_x and (current_y == next_y-2 or current_y == next_y+2) :
             jump = next_y-current_y
             if(jump>0):
@@ -145,12 +169,13 @@ def move(current_x, current_y, next_x, next_y, player_mark, board, player_arr):
                 if '' == board[next_x - 1][next_y + 1]:
                     print('Invalid move')
                     return
+        is_jump = True
 
     board[next_x][next_y] = player_mark
     board[current_x][current_y] = ''
     player_arr[current_x][current_y] = ''
     player_arr[next_x][next_y] = player_mark
-    return board, player_arr
+    return board, player_arr, is_jump
 
 def is_win(player_arr, player_win_arr):
     if np.array_equal(player_arr, player_win_arr):
