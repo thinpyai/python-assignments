@@ -35,9 +35,11 @@ def main():
 
         if turn == 1:
             while is_continue:
-                # TODO to handle false return
                 player1_arr, is_jump = move(current_x, current_y, next_x, next_y, player1_mark, player1_arr,
                                             player2_arr)
+                if not player1_arr:
+                    return
+
                 if is_win(player1_arr, player1_win_arr):
                     print(f'Player{turn} is win')
                     is_continue = False
@@ -56,6 +58,9 @@ def main():
             while is_continue:
                 player2_arr, is_jump = move(current_x, current_y, next_x, next_y, player2_mark, player2_arr,
                                             player1_arr)
+                if not player2_arr:
+                    return
+
                 if is_win(player2_arr, player2_win_arr):
                     print(f'Player{turn} is win')
                     is_continue = False
@@ -91,26 +96,6 @@ def ask_next_move(next_x, next_y, player1_arr, player2_arr, player1_mark, player
     current_y = next_y
     next_x, next_y = receive_coordinate_values('next')
     return current_x, current_y, next_x, next_y
-
-
-# def receive_next_loc():
-#     """
-#     Receive input for the next location
-#     :return:
-#         next_x for next x location
-#         next_y for next y location
-#     """
-#     try:
-#         next_x = int(input('Input next position of x'))
-#     except Exception:
-#         print('Invalid input')
-#         next_x = -1
-#     try:
-#         next_y = int(input('Input next position of y'))
-#     except Exception:
-#         print('Invalid input')
-#         next_y = -1
-#     return next_x, next_y
 
 
 def receive_coordinate_values(status):
@@ -198,33 +183,34 @@ def move(current_x, current_y, next_x, next_y, player_mark, player_arr, other_pl
             If jumped, return True
             Else, False
     """
+    jump = False
     # is current location valid
     if not player_arr[current_x][current_y]:
         print('Invalid move')
-        return
+        return None, jump
 
     # is current location valid
     if player_arr[current_x][current_y] != player_mark:
         print('Invalid move')
-        return
+        return None, jump
 
     # is next location valid
-    if '' != player_arr[next_x][next_y] and '' != other_player_arr[next_x][next_y]:
+    if '' != player_arr[next_x][next_y] or '' != other_player_arr[next_x][next_y]:
         # next move is not blank
         print('Invalid move')
-        return
+        return None, jump
 
     if not is_valid_move(current_x, current_y, next_x, next_y):
         print('Invalid move')
-        return
+        return None, jump
 
     if is_one_step_move(current_x, current_y, next_x, next_y):
-        jump = False
+        pass
     elif is_valid_jump(current_x, current_y, next_x, next_y, player_arr, other_player_arr):
         jump = True
     else:
         print('Invalid move')
-        return
+        return None, jump
 
     player_arr[current_x][current_y] = ''
     player_arr[next_x][next_y] = player_mark
@@ -274,116 +260,6 @@ def is_one_step_move(current_x, current_y, next_x, next_y):
         return False
     return True
 
-
-# def old_move(current_x, current_y, next_x, next_y, player_mark, player_arr, other_player_arr):
-#     """
-#     Move the mark to the next position from current
-#     :param current_x: current position of item on x coordinate
-#     :param current_y: current position of item on y coordinate
-#     :param next_x: current position of item on y coordinate
-#     :param next_y: next position of item on y coordinate
-#     :param player_mark: mark on board of target player
-#     :param player_arr: player's playing result array
-#     :param other_player_arr: other player's playing result array
-#     :return:
-#         player_arr : player's playing result array
-#         jump :
-#             If jumped, return True
-#             Else, False
-#     """
-#     if not player_arr[current_x][current_y]:
-#         print('Invalid move')
-#         return
-#     if '' != player_arr[next_x][next_y] and '' != other_player_arr[next_x][next_y]:
-#         # next move is not blank
-#         print('Invalid move')
-#         return
-#
-#     move_OK = False
-#     if current_x == next_x and (current_y == next_y - 1 or current_y == next_y + 1):
-#         move_OK = True
-#     elif current_y == next_y and (current_x == next_x - 1 or current_x == next_x + 1):
-#         move_OK = True
-#     elif (current_y == next_y + 1 and current_x == next_x + 1) or (current_y == next_y - 1 and current_x == next_x - 1):
-#         move_OK = True
-#     # jump
-#
-#     jump = False
-#     if not move_OK:
-#         if not is_jump(current_x, current_y, next_x, next_y, player_arr, other_player_arr):
-#             return
-#         jump = True
-#
-#     player_arr[current_x][current_y] = ''
-#     player_arr[next_x][next_y] = player_mark
-#     return player_arr, jump
-#
-#
-# def is_jump(current_x, current_y, next_x, next_y, player_arr, other_player_arr):
-#     """
-#
-#     :param current_x: current position of item on x coordinate
-#     :param current_y: current position of item on y coordinate
-#     :param next_x: current position of item on y coordinate
-#     :param next_y: next position of item on y coordinate
-#     :param player_arr: player's playing result array
-#     :param other_player_arr: other player's playing result array
-#     :return:
-#     """
-#     if current_x == next_x and (current_y == next_y - 2 or current_y == next_y + 2):
-#         # vertical move
-#         step = next_y - current_y
-#         if (step > 0):
-#             if '' == player_arr[next_x][next_y - 1] and '' == other_player_arr[next_x][next_y - 1]:
-#                 print('Invalid move')
-#                 return False
-#         else:
-#             if '' == (player_arr[next_x][next_y + 1] and '' == other_player_arr[next_x][next_y + 1]):
-#                 print('Invalid move')
-#                 return False
-#     elif current_y == next_y and (current_x == next_x - 2 or current_x == next_x + 2):
-#         step = next_x - current_x
-#         if (step > 0):
-#             if '' == player_arr[next_x - 1][next_y] and '' == other_player_arr[next_x - 1][next_y]:
-#                 print('Invalid move')
-#                 return False
-#         else:
-#             if '' == player_arr[next_x + 1][next_y] and '' == other_player_arr[next_x + 1][next_y]:
-#                 print('Invalid move')
-#                 return False
-#     elif (current_y == next_y + 2 and current_x == next_x + 2) or (
-#             current_y == next_y - 2 and current_x == next_x - 2):
-#         step_x = next_x - current_x
-#         step_y = next_y - current_y
-#         if (step_x >= 0 and step_y >= 0):
-#             if '' == player_arr[next_x - 1][next_y - 1] and '' == other_player_arr[next_x - 1][next_y - 1]:
-#                 print('Invalid move')
-#                 return False
-#         elif (step_x <= 0 and step_y <= 0):
-#             if '' == player_arr[next_x + 1][next_y + 1] and '' == other_player_arr[next_x + 1][next_y + 1]:
-#                 print('Invalid move')
-#                 return False
-#         elif (step_x <= 0 and step_y >= 0):
-#             if '' == player_arr[next_x + 1][next_y - 1] and '' == other_player_arr[next_x + 1][next_y - 1]:
-#                 print('Invalid move')
-#                 return False
-#         elif (step_x >= 0 and step_y <= 0):
-#             if '' == player_arr[next_x - 1][next_y + 1] and '' == other_player_arr[next_x - 1][next_y + 1]:
-#                 print('Invalid move')
-#                 return False
-#     return True
-
-
-# def is_valid_jump(next_x, next_y, nex_x_side, cur_y_side, player_arr, other_player_arr, step):
-#     # step = next_y - current_y
-#     if step > 0 and step < 2:
-#         if '' == player_arr[next_x+ nex_x_side][next_y + cur_y_side] and '' == other_player_arr[next_x + nex_x_side][next_y + cur_y_side]:
-#             print('Invalid move')
-#             return False
-#     else:
-#         if '' == (player_arr[next_x][next_y + 1] and '' == other_player_arr[next_x][next_y + 1]):
-#             print('Invalid move')
-#             return False
 
 def is_win(player_arr, player_win_arr):
     """
