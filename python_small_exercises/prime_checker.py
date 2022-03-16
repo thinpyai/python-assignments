@@ -33,6 +33,15 @@ def is_prime_2(num):
         i += 1
     return True 
 
+def is_prime_3(n):
+  if  (n < 2) or (n > 2 and n%2 == 0):
+      return False
+  for i in range(3, int(n**.5)+1, 2):
+      if n%i == 0:
+          return False
+  else:
+      return True
+
 if __name__ == "__main__":
     print(is_prime(34421689)) # False
     print(is_prime(39677401)) # False
@@ -47,5 +56,5 @@ if __name__ == "__main__":
     print(is_prime(2)) # True
     print(is_prime(13)) # True
     print(is_prime(-2)) # False
-    print(is_prime(6)) # False
+    print(is_prime_3(9)) # False
     
