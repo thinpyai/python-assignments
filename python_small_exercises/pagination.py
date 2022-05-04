@@ -22,14 +22,23 @@ class PaginationHelper:
     # returns the number of items on the current page. page_index is zero based
     # this method should return -1 for page_index values that are out of range
     def page_item_count(self,page_index):
-        if page_index > self.page_count()-1 or page_index < 0 or self.item_count() <= 0:
+        if page_index < 0 or page_index >= self.page_count():
             return -1
-        elif page_index == self.page_count()-1:
-            return self.item_count() - (self.items_per_page*page_index)
 
-        last_items = self.items_per_page*(page_index-1)
-        return (self.items_per_page*(page_index+1)) - 0 if last_items < 0 else last_items
-        
+        total = self.item_count()
+        page_item_dict= {}
+        index = 0
+
+        while total-self.items_per_page >= 0:
+            page_item_dict[index]=self.items_per_page
+            total-= self.items_per_page
+            index+=1
+
+        if total>0:
+            page_item_dict[index]=total
+
+        return page_item_dict[page_index]
+
     
     # determines what page an item is on. Zero based indexes.
     # this method should return -1 for item_index values that are out of range
@@ -47,33 +56,35 @@ if __name__ == "__main__":
     print(helper.page_item_count(2)) # should == -1 since the page is invalid
 
     # page_index takes an item index and returns the page that it belongs on
-    print(helper.page_index(5)) # should == 1 (zero based index)
-    print(helper.page_index(2)) # should == 0
-    print(helper.page_index(20)) # should == -1
-    print(helper.page_index(-10)) # should == -1 because negative indexes are invalid
+    # print(helper.page_index(5)) # should == 1 (zero based index)
+    # print(helper.page_index(2)) # should == 0
+    # print(helper.page_index(20)) # should == -1
+    # print(helper.page_index(-10)) # should == -1 because negative indexes are invalid
 
-    print('--------')
-    collection = range(1,25)
-    helper2 = PaginationHelper(collection, 10)
-    print(helper2.page_count()) # should == 3
-    print(helper2.page_index(23)) # should == 2
-    print(helper2.item_count()) # should == 24
-    print(helper2.page_item_count(-10)) # should == 10
+    # print('--------')
+    # collection = range(1,25)
+    # helper2 = PaginationHelper(collection, 10)
+    # print(helper2.page_count()) # should == 3
+    # print(helper2.page_index(23)) # should == 2
+    # print(helper2.item_count()) # should == 24
+    # print(helper2.page_item_count(-10)) # should == 10
 
-    print('--------')
-    helper3 = PaginationHelper([], 10)
-    print(helper3.page_index(0)) # should == -1
-    print(helper3.page_index(100)) # should == -1
-    print(helper3.page_item_count(0)) # should == -1
+    # print('--------')
+    # helper3 = PaginationHelper([], 10)
+    # print(helper3.page_index(0)) # should == -1
+    # print(helper3.page_index(100)) # should == -1
+    # print(helper3.page_item_count(0)) # should == -1
 
-    print('--------')
-    helper4 = PaginationHelper(['a'], 0)
-    print(helper4.page_index(1)) # should == -1
-    print(helper4.page_item_count(0)) # should == -1
+    # print('--------')
+    # helper4 = PaginationHelper(['a'], 0)
+    # print(helper4.page_index(1)) # should == -1
+    # print(helper4.page_item_count(0)) # should == -1
 
-    print('--------')
-    helper4 = PaginationHelper(['a'], -10)
-    print(helper4.page_index(0)) # should == -1
-    print(helper4.page_item_count(0)) # should == -1
+    # print('--------')
+    # test_data = [i for i in range(0,14)]
+    # helper4 = PaginationHelper(test_data, 10)
+    # print(helper4.page_index(0)) # should == -1
+    # print(helper4.page_item_count(5)) # should == 4
+    # print(helper4.page_item_count(1)) # should == 10
         
   
