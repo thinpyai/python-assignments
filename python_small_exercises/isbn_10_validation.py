@@ -1,5 +1,4 @@
-from multiprocessing.sharedctypes import Value
-
+import re
 
 def valid_ISBN10(isbn: str) -> bool: 
 
@@ -29,9 +28,16 @@ def calculate_each(index: int, input: str):
 
     return index * input_int
 
-def good_ans(isbn):
-    return bool(re.match("\d{9}[\dX]$", isbn)) and sum("0123456789X".index(d) * i for i, d in enumerate(isbn, 1)) % 11 == 0
+def improved_ans(isbn: str):
+    result = re.compile(r'^[0-9]{9}[0-9X]$').match(isbn)
+    if result is None:
+        return False
+    total = sum(['0123456789X'.index(val) * (i+1) for i, val in enumerate(isbn)]) 
+    return total % 11 == 0
     
 if __name__ == "__main__":
     # print(valid_ISBN10('1112223339'))
-    print(valid_ISBN10('X123456788'))
+    # print(valid_ISBN10('X123456788'))
+    print(improved_ans('1112223339'))
+    # print(improved_ans('111222333X'))
+    # print(improved_ans('X123456788'))
