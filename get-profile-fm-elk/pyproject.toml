@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "customer-complete-profiles-collection"
+version = "0.1.0"
+description = "Generting profile information"
+authors = ["thinpyai <thinpyaiwin@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+elasticsearch = "^8.14.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
