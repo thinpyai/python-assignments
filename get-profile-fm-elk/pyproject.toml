@@ -1,13 +1,14 @@
 [tool.poetry]
-name = "customer-complete-profiles-collection"
+name = "src"
 version = "0.1.0"
-description = "Generting profile information"
-authors = ["thinpyai <thinpyaiwin@gmail.com>"]
+description = ""
+authors = ["Thin Pyai <thinpyai.win@wavemoney.com.mm>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.12"
 elasticsearch = "^8.14.0"
+paramiko = "^3.4.0"
 
 
 [build-system]

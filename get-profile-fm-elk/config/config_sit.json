@@ -1,0 +1,33 @@
+{
+    "default": {
+        "search_key_name": "poi"
+    },
+    "elastic": {
+        "scheme": "http",
+        "host": "nonprod-elk-internal-nlb-bd87272a66900f21.elb.ap-southeast-1.amazonaws.com",
+        "port": 80,
+        "index": "test-otc-profiles",
+        "username": "elastic",
+        "password": "07ea64Ei61TEvf9v7SQn72sh",
+        "complete_profile_only": true
+    },
+    "sftp": {
+        "sftp_host": "s-e5143a4217d74a228.server.transfer.ap-southeast-1.amazonaws.com",
+        "sftp_username": "otc-profile",
+        "key_file_path": "./otc-profile-nonprod.pem",
+        "source_path": "/nonprod-test-sftp/otc-profile/input/input.txt",
+        "destination_dir": "/nonprod-test-sftp/otc-profile/output/",
+        "local_dir": "."
+    },
+    "input": {
+        "file_name": "input.txt",
+        "file_extension": ".txt"
+    },
+    "output": {
+        "fields": "id,name,poiType,poi,profileType,lastUsedMsisdn,lastCreatedBy,createdDate",
+        "file_prefix": "otc_profiles_",
+        "file_extension": ".csv",
+        "complete_profile_only": true
+    }
+  }
+  
