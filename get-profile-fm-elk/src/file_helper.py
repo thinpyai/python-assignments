@@ -27,7 +27,7 @@ class FileHelper:
         self.target_fields = output_config.get(
             'fields', 'id,poi,profileType').split(',')
         self.output_file_prefix = output_config.get(
-            'file_prefix', 'otc_profiles_')
+            'file_prefix', 'profiles_')
         self.output_file_extension = output_config.get(
             'file_extension', '.csv')
 
@@ -44,9 +44,9 @@ class FileHelper:
         self.sftp_username = sftp_config.get('sftp_username', '')
         self.key_file_path = sftp_config.get('key_file_path', '')
         self.source_path = sftp_config.get(
-            'source_path', '/otc-profile/input/input.txt')
+            'source_path', '/profile/input/input.txt')
         self.destination_dir = sftp_config.get(
-            'destination_dir', '/otc-profile/output/')
+            'destination_dir', '/profile/output/')
         self.local_dir = sftp_config.get('local_dir', './')
 
     def filter_fields(self, raw_profiles: list) -> list:
@@ -226,9 +226,8 @@ class FileHelper:
             with open(file_path, mode='w', newline='', encoding='utf-8') as file:
                 writer = csv.DictWriter(file, fieldnames=self.target_fields)
                 writer.writeheader()
-                for profile in profiles:
-                    if profile.get('profileType') == 'OTC':
-                        writer.writerow(profile)
+                writer.writerow(profiles)
+                        
         except FileNotFoundError:
             logger.error(f'The file {file_path} does not exist.')
             raise FileNotFoundError(f'The file {file_path} does not exist.')

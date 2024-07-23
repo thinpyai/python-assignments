@@ -30,7 +30,7 @@ In git bash,
 ```
 source .venv/Scripts/activate
 ```
-8. Get the otc-profile-nonprod.pem and put under get-otc-customer-profile dir.
+8. Get the profile-nonprod.pem and put under get-customer-profile dir.
 9. Selete python interpreter from virtual environment.
 10. Run 
 by using script file in terminal

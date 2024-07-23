@@ -10,7 +10,7 @@ def main():
     """
     # get config file_path
     parser = argparse.ArgumentParser(
-        description='Get complete OTC user profiles job')
+        description='Get complete citizen user profiles job')
     parser.add_argument('file_path', type=str, help='Configuration file path')
     args = parser.parse_args()
     file_path = args.file_path

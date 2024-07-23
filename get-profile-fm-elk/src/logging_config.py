@@ -19,7 +19,7 @@ LOGGING_CONFIG = {
         'file': {
             'class': 'logging.FileHandler',
             'formatter': 'standard',
-            'filename': './otc-profile/logs/get-profile.log',
+            'filename': './profile/logs/get-profile.log',
             'level': logging.DEBUG,
         },
     },

@@ -64,12 +64,12 @@ class ElasticClient:
         }
 
         if self.complete_profile_only_flag != 'true':
-            otc_profile_filter = {
+            profile_filter = {
                 'term': {
-                    'profileType': 'OTC'
+                    'profileType': 'citizen'
                 }
             }
-            query['query']['bool']['filter'].append(otc_profile_filter)
+            query['query']['bool']['filter'].append(profile_filter)
 
         try:
             response = self.es.search(
