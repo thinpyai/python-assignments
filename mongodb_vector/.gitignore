@@ -1,0 +1,11 @@
+# Ignore all .log files
+*.log
+
+# Ignore Python bytecode and cache files
+__pycache__/
+*.py[cod]
+
+*.jpeg
+*.jpg
+*.csv
+.venv/
