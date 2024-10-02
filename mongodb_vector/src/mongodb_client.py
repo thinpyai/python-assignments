@@ -46,7 +46,7 @@ class MongoDBClient:
         :return: Created Collection
         """
         self.client.admin.command('ping')
-        print("Pinged your deployment. You successfully connected to MongoDB!")
+        logger.info(f"Successfully connected to MongoDB")
 
         if SELFIE_COLLECTION_NAME in self.db.list_collection_names():
             logger.warning(f"Collection already exists. Collection : {SELFIE_COLLECTION_NAME}")
@@ -167,11 +167,9 @@ class MongoDBClient:
         img_file_name, similarity, poi = compare_img_by_cosine(input_embedding, stored_embedding_list)
 
         if similarity > 0.6:
-            print(f'Match. Cosine Similarity : {similarity}, selfie : {image_path}, base_img : {img_file_name}, poi : {poi}')
             logger.info(f'Match. Similarity : {similarity}, selfie : {image_path}, base_img : {img_file_name}, poi : {poi}')
 
         else:
-            print(f'Unmatch. Cosine Similarity : {similarity}, selfie : {image_path}, base_img : {img_file_name}, poi : {poi}')
             logger.warning(f'Unmatch. Similarity : {similarity}, selfie : {image_path}, base_img : {img_file_name}, poi : {poi}')
 
     def search_selfie(self, image_path, poi):
@@ -187,8 +185,6 @@ class MongoDBClient:
 
         for result in results:
             similarity = calculate_mongodb_vectore_score(result)
-            print(
-                f'Match. euclidean-search Similarity : {similarity} : {result['score']}, selfie : {image_path}, base_img : {result['file_name']}, poi : {result['poi']}')
             logger.info(
                 f'Match. euclidean-search Similarity : {similarity} : {result['score']}, selfie : {image_path}, base_img : {result['file_name']}, poi : {result['poi']}')
 
@@ -205,8 +201,6 @@ class MongoDBClient:
 
         for result in results:
             similarity = calculate_mongodb_vectore_score(result)
-            print(
-                f'Match. euclidean-vector-search Similarity : {similarity} : {result['score']}, selfie : {image_path}, base_img : {result['file_name']}, poi : {result['poi']}')
             logger.info(
                 f'Match. euclidean-vector-search Similarity : {similarity} : {result['score']}, selfie : {image_path}, base_img : {result['file_name']}, poi : {result['poi']}')
 
@@ -225,11 +219,9 @@ class MongoDBClient:
         is_match, similarity, poi = compare_img_by_cosine(input_embedding, stored_embedding_list)
 
         if similarity > 0.9:
-            print(f'Match. Similarity : {similarity}')
             logger.info(f'Match. is_match: {is_match}, similarity : {similarity}')
 
         else:
-            print(f'Not match. Similarity : {similarity}')
             logger.warning(f'Not match. is_match: {is_match}, similarity : {similarity}')
 
 

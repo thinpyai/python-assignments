@@ -141,12 +141,3 @@ def calculate_mongodb_vectore_score(result):
     score = result['score']
     similarity = 1 / (1 + score)
     return similarity
-
-    # min_score = min(score)
-    # max_score = max(score)
-    #
-    # normalized = (2 * (score - min_score) / (max_score - min_score)) - 1
-    # return max(min(normalized, 1), -1)  # Clamp to [-1, 1]
-
-
-
