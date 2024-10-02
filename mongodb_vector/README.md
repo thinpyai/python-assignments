@@ -15,7 +15,5 @@ In window,
 
 
 #### TODO
-1. write program
-2. move to src package
-2. add config 
-3. read from a file server
+1. add config 
+2. read from a file server
